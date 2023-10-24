@@ -13,7 +13,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.2'
+    junitVersion = '5.9.2'
 }
 
 sourceCompatibility = '17'
@@ -35,6 +35,7 @@ javafx {
 
 dependencies {
 
+    implementation "org.controlsfx:controlsfx:11.1.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
