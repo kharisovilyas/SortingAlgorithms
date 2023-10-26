@@ -3,7 +3,7 @@ package com.example.sortingalgorithms;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class SortingController {
     @FXML
     private Label welcomeText;
 
