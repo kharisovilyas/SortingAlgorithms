@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TreeSort <T extends Comparable<T>>  {
     // метод просто сортирует лист Древесной сортировкой
-    private List<T> sort (List<T> inputList) {
+    public List<T> sort (List<T> inputList) {
         Tree<T> tree = new Tree<>();
         tree = tree.toCreateTreeFromList(inputList);
         return tree.toMakeInorder();
