@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TreeSort <T extends Comparable<T>>  {
     // метод просто сортирует лист Древесной сортировкой
-    private List<T> sort (List<T> inputList) {
+    public List<T> sort (List<T> inputList) {
         Tree<T> tree = new Tree<>();
         tree = tree.toCreateTreeFromList(inputList);
         return tree.toMakeInorder();
@@ -13,7 +13,7 @@ public class TreeSort <T extends Comparable<T>>  {
 
     //метод, который предоставляет таблицу,
     // где ключ - кол-во отсортированных элементов, а значение - время сортировки
-    public Map<Integer,Long> createDataAboutSorting(List<T> inputList){
+    public Map<Integer, Long> createDataAboutSorting(List<T> inputList){
         Tree<T> tree = new Tree<>();
         tree = tree.toCreateTreeFromList(inputList);
         tree.toMakeInorder();

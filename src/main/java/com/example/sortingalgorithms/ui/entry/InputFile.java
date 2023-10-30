@@ -1,11 +1,18 @@
 package com.example.sortingalgorithms.ui.entry;
 
+import com.example.sortingalgorithms.ui.viewmodel.ChartViewModel;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 public class InputFile {
+    private ChartViewModel viewModel; // ViewModel
+
+    public InputFile(ChartViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     // Перечисление для статусов файла
     public enum FileStatus {
         OK,        // Файл существует, не пустой и можно читать
@@ -39,14 +46,13 @@ public class InputFile {
     }
 
     // Метод для загрузки данных из файла
-    public static List<Double> loadNumericDataFromFile(String fileName) {
+    public void loadNumericDataFromFile(String fileName) {
         FileStatus status = validateFile(fileName);
         List<Double> data = new ArrayList<>();
-
         if (status != FileStatus.OK) {
             // Вывести сообщение об ошибке в зависимости от статуса
             System.err.println("Error: " + status);
-            return data;
+            return;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -54,6 +60,7 @@ public class InputFile {
             while ((line = reader.readLine()) != null) {
                 try {
                     double value = Double.parseDouble(line);
+                    viewModel.addListSortingElement(value);
                     data.add(value);
                 } catch (NumberFormatException e) {
                     //выводить Alert Dialog
@@ -63,7 +70,7 @@ public class InputFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return data;
+
     }
 
     // Метод для загрузки строк из файла

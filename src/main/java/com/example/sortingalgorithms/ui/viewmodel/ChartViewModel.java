@@ -1,8 +1,10 @@
 package com.example.sortingalgorithms.ui.viewmodel;
 
 import com.example.sortingalgorithms.ui.model.ChartDataModel;
+import javafx.scene.control.Alert;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 // Модуль ViewModel
 public class ChartViewModel {
@@ -12,14 +14,26 @@ public class ChartViewModel {
         this.dataModel = dataModel;
     }
 
-    public void addData(Double key, Integer value) {
-        dataModel.addData(key, value);
+    public void addChartDataElement(Integer key, Long value) {
+        dataModel.addDataHashTable(key, value);
     }
-    public void addData(Hashtable<Double, Integer> list) {
-        dataModel.updateDataList(list);
+    public void addChartDataList() {
+        dataModel.updateChartData();
     }
 
-    public Hashtable<Double, Integer> getData() {
-        return dataModel.getData();
+    public Map<Integer, Long> getData() {
+        return dataModel.getChartData();
+    }
+
+    public void addListSortingElement(Double value){
+        dataModel.addDataListSorting(value);
+    }
+
+    public void showErrorAlert(String title, String headerText, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 }

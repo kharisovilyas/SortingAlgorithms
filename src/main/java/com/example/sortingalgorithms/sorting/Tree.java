@@ -14,8 +14,21 @@ public class Tree <T extends  Comparable<T>> {
     }
     private Node<T> root; // ссылка на корневой элемент дерева
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tree<?> tree = (Tree<?>) o;
+        return startTimer == tree.startTimer && countOfSortedElements == tree.countOfSortedElements && Objects.equals(toSaveDataAboutSorting, tree.toSaveDataAboutSorting) && Objects.equals(root, tree.root);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toSaveDataAboutSorting, startTimer, countOfSortedElements, root);
+    }
+
     /* метод для создания дерева с помощью
-    коллекции имплементирующей интерфейс*/
+        коллекции имплементирующей интерфейс*/
     public  Tree<T> toCreateTreeFromList(List<T> listForCreate){
         Tree<T> tree = new Tree<>();
         for (var value : listForCreate){
@@ -37,6 +50,7 @@ public class Tree <T extends  Comparable<T>> {
         // Сброс данных перед новым обходом
         countOfSortedElements = 0;
         toSaveDataAboutSorting.clear();
+        //toSaveDataAboutSorting.put(0, 0L);
         startTimer = System.nanoTime();  // Запуск таймера
         return inorderWithOutRecursion();
     }

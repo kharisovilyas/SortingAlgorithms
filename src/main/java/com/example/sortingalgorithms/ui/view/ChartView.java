@@ -5,6 +5,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 // Модуль Представления
 public class ChartView {
@@ -19,8 +20,7 @@ public class ChartView {
     }
 
     public void renderChart() {
-        series.getData().clear();
-        Hashtable<Double, Integer> data = viewModel.getData();
+        Map<Integer, Long> data = viewModel.getData();
         for (Number key : data.keySet()) {
             series.getData().add(new XYChart.Data<>(key, data.get(key)));
         }

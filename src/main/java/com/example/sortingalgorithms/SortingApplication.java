@@ -1,6 +1,7 @@
 package com.example.sortingalgorithms;
 
 import com.example.sortingalgorithms.sorting.TreeSort;
+import com.example.sortingalgorithms.ui.entry.InputFile;
 import com.example.sortingalgorithms.ui.entry.Validators;
 import com.example.sortingalgorithms.ui.model.ChartDataModel;
 import com.example.sortingalgorithms.ui.view.ChartView;
@@ -32,7 +33,8 @@ public class SortingApplication extends Application {
     private ChartDataModel dataModel; // Модель данных
     private ChartViewModel viewModel; // ViewModel
     private ChartView chartView; // Представление
-    private Validators validators;
+    private InputFile inputFile;
+    private Validators validators = new Validators();
     private ArrayList<Double> listForSorting = new ArrayList<>();
     private TreeSort<Double> algorithmSorting = new TreeSort<>();
     private Hashtable<Integer, Double> tableDataCharts = new Hashtable<>();
@@ -45,7 +47,6 @@ public class SortingApplication extends Application {
         // Создание и инициализация модели данных и ViewModel
         dataModel = new ChartDataModel();
         viewModel = new ChartViewModel(dataModel);
-
         // Создание графика
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -63,56 +64,51 @@ public class SortingApplication extends Application {
         dataListView.setEditable(true);
 
         // Создание и инициализация представления с передачей графика и списка данных
-
         Button addButton = new Button("Add Data");
         Button renderButton = new Button("Render Chart");
 
+        // Создание окна ввода данных из файла
+        Label fileInputLabel = new Label("Enter the path to the data file");
+        TextField fileInputField = new TextField();
+        Button readFromFileButton = new Button("Read Data from File");
+        inputFile = new InputFile(viewModel);
+        readFromFileButton.setOnAction(e -> {
+            String fileName = fileInputField.getText();
+            inputFile.loadNumericDataFromFile(fileName);
+            // Здесь вы можете добавить логику для чтения данных из файла и обновления вашей модели данных
+            // Например, используя InputFile.loadNumericDataFromFile(fileName)
+            // Затем обновить ViewModel с прочитанными данными
+        });
+
+
         // Создание и инициализация представления с передачей графика и списка данных
         addButton.setOnAction(e -> {
-            int count;
-            try {
-                count = Integer.parseInt(countField.getText());
-                if (count > 0) {
-                    for (int i = 1; i <= count; i++) {
+            String countText = countField.getText();
+            if (validators.validateSizeInput(countText)) {
+                int count = Integer.parseInt(countText);
+                for (int i = 1; i <= count; i++) {
+                    Optional<String> result;
+                    do {
                         TextInputDialog dialog = new TextInputDialog();
                         dialog.setTitle("Data Input");
                         dialog.setHeaderText("Enter data for element " + i + ":");
                         dialog.setContentText("Data:");
-                        Optional<String> result = dialog.showAndWait();
-
-
-                        int finalI = i;
+                        result = dialog.showAndWait();
                         result.ifPresent(data -> {
-                            dataListView.getItems().add(data);
-                            viewModel.addData(Double.parseDouble(data), finalI);
+                            if (validators.validateIntegerInput(data)) {
+                                dataListView.getItems().add(data);
+                                viewModel.addListSortingElement(Double.parseDouble(data));
+                            } else {
+                                viewModel.showErrorAlert("Data Input Error", "Invalid Data", "Please enter a valid number.");
+                            }
                         });
-
-                        //TODO: КОГДА БУДЕТ ОБНОВЛЕНИЕ ВЕТКИ РАЗКОМЕНТИТЬ
-                        // tableDataCharts = algorithmSorting.sort(listForSorting);
-                        // а выше закомментить
-
-/*
-                        result.ifPresent(data -> {
-                            listForSorting.add(Double.parseDouble(data));
-                        });
-*/
-
-                    }
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Data Input Error");
-                    alert.setHeaderText("Invalid Count");
-                    alert.setContentText("Please enter a valid count (greater than 0).");
-                    alert.showAndWait();
+                    } while (result.get().isEmpty()); // Зацикливаем ввод, пока не введены верные данные
                 }
-            } catch (NumberFormatException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Data Input Error");
-                alert.setHeaderText("Invalid Input");
-                alert.setContentText("Please enter a valid number for the count.");
-                alert.showAndWait();
+            } else {
+                viewModel.showErrorAlert("Data Input Error", "Invalid Count", "Please enter a valid count (greater than 0).");
             }
         });
+
         //TODO: КОГДА БУДЕТ ОБНОВЛЕНИЕ ВЕТКИ РАЗКОМЕНТИТЬ
         // tableDataCharts = algorithmSorting.sort(listForSorting);
         chartView = new ChartView(series, dataListView, viewModel);
@@ -125,9 +121,16 @@ public class SortingApplication extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(lineChart);
 
-        VBox inputVBox = new VBox(countLabel, countField, addButton, dataListView, renderButton);
-        inputVBox.setSpacing(10);
-        borderPane.setRight(inputVBox);
+        // Размещение окон ввода данных и чтения данных из файла
+        VBox inputVBox = new VBox(countLabel, countField, addButton, dataListView);
+        VBox fileInputVBox = new VBox(fileInputLabel, fileInputField, readFromFileButton);
+        inputVBox.setSpacing(20);
+        fileInputVBox.setSpacing(20);
+        VBox vbox = new VBox(inputVBox, fileInputVBox, renderButton);
+        vbox.setSpacing(100);
+        borderPane.setRight(vbox); // Размещаем оба VBox справа друг под другом
+
+
 
         // Получение информации о экране
         Screen primaryScreen = Screen.getPrimary();

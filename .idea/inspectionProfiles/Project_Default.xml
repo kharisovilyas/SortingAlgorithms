@@ -5,6 +5,7 @@
       <option name="excludeList">
         <list>
           <option value="org.junit.jupiter:junit-jupiter-api" />
+          <option value="org.junit.jupiter:junit-jupiter" />
         </list>
       </option>
     </inspection_tool>
