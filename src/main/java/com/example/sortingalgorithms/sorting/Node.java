@@ -19,7 +19,7 @@ public class Node<T extends Comparable<T>> {
         return Objects.hash(data);
     }
 
-    private final int ZEROFORCOMPAREVALUES = 0; // ноль для сравнений в компараторе
+    private final int ZERO_FOR_COMPARE_VALUES = 0; // ноль для сравнений в компараторе
     private T data; // данные в узле
     private Node<T> left; // левый потомок
     private Node<T> right; // правый потомок
