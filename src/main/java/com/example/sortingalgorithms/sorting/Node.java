@@ -2,12 +2,8 @@ package com.example.sortingalgorithms.sorting;
 
 import java.util.Objects;
 
-public class Node<T extends Comparable <T>> {
-    private final int ZEROFORCOMPAREVALUES = 0; // ноль для сравнений в компараторе
-    T data; // данные в узле
-    Node<T> left; // левый потомок
-    Node<T> right; // правый потомок
-
+public class Node <T extends Comparable<T>>{
+    public Node (){} // конструктор по умолчанию
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,6 +16,12 @@ public class Node<T extends Comparable <T>> {
     public int hashCode() {
         return Objects.hash(data);
     }
+
+    private final int ZEROFORCOMPAREVALUES = 0; // ноль для сравнений в компараторе
+    private T data; // данные в узле
+    private Node<T> left; // левый потомок
+    private Node<T> right; // правый потомок
+
 
     public Node(T data) {
         this.data = data;
@@ -52,7 +54,7 @@ public class Node<T extends Comparable <T>> {
     public void addNewNode(T value){
         Node<T> node = new Node<>(value);
 
-        if(node.data.compareTo(value) < ZEROFORCOMPAREVALUES){
+        if(node.data.compareTo(data) < ZEROFORCOMPAREVALUES){
             if (left == null){
                 left = node;
             }else {
