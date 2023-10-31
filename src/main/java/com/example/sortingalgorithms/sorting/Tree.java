@@ -2,7 +2,7 @@ package com.example.sortingalgorithms.sorting;
 
 import java.util.*;
 
-public class Tree <T extends  Comparable<T>> {
+public class Tree<T extends Comparable<T>>{
 
     @Override
     public boolean equals(Object o) {
@@ -18,31 +18,19 @@ public class Tree <T extends  Comparable<T>> {
     }
 
     /*Хранит данные о сортировке, где ключ - коли-во отсортированных элементов,
-        а значение это время сортировки */
-    private Map<Integer , Long> toSaveDataAboutSorting = new HashMap<>();
+         а значение это время сортировки */
+    private  Map<Integer , Long> toSaveDataAboutSorting = new HashMap<>();
     private  long startTimer = 0;
     private  int countOfSortedElements = 0; // количество отсортированных элементов в текущем листе
 
     public  Map<Integer, Long> getToSaveDataAboutSorting() {
         return toSaveDataAboutSorting;
     }
+
     private Node<T> root; // ссылка на корневой элемент дерева
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tree<?> tree = (Tree<?>) o;
-        return startTimer == tree.startTimer && countOfSortedElements == tree.countOfSortedElements && Objects.equals(toSaveDataAboutSorting, tree.toSaveDataAboutSorting) && Objects.equals(root, tree.root);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(toSaveDataAboutSorting, startTimer, countOfSortedElements, root);
-    }
-
     /* метод для создания дерева с помощью
-        коллекции имплементирующей интерфейс*/
+    коллекции имплементирующей интерфейс*/
     public  Tree<T> toCreateTreeFromList(List<T> listForCreate){
         Tree<T> tree = new Tree<>();
         for (var value : listForCreate){
@@ -60,11 +48,41 @@ public class Tree <T extends  Comparable<T>> {
         root.addNewNode(data);
     }
 
+    /*Инфиксный обход дерева*/
+    public List<T> inorder (){
+        if (root == null){
+            return new ArrayList<>();
+        }
+        startTimer = System.currentTimeMillis();
+        return inorder(root);
+
+    }
+
+    /*Инфиксный обход - реализация*/
+    private List<T> inorder(Node<T> node){
+        List<T> list = new ArrayList<>();
+
+        if(node != null){
+            /*рекурсивно обходим дерево*/
+            if(node.getLeft() != null){
+                list.addAll(inorder(node.getLeft()));
+            }
+
+            list.add(node.getData());
+            countOfSortedElements++;
+            if(node.getRight() != null){
+                list.addAll(inorder(node.getRight()));
+            }
+        }
+
+        return list;
+
+    }
+
     public List<T> toMakeInorder (){
         // Сброс данных перед новым обходом
         countOfSortedElements = 0;
         toSaveDataAboutSorting.clear();
-        //toSaveDataAboutSorting.put(0, 0L);
         startTimer = System.nanoTime();  // Запуск таймера
         return inorderWithOutRecursion();
     }
@@ -92,5 +110,8 @@ public class Tree <T extends  Comparable<T>> {
 
         return list;
     }
+
+
+
 
 }
