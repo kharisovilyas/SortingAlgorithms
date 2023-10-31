@@ -1,9 +1,8 @@
 package com.example.sortingalgorithms;
 
-import com.example.sortingalgorithms.sorting.TreeSort;
-import com.example.sortingalgorithms.ui.entry.InputFile;
-import com.example.sortingalgorithms.ui.entry.Validators;
-import com.example.sortingalgorithms.ui.model.ChartDataModel;
+import com.example.sortingalgorithms.entry.InputFile;
+import com.example.sortingalgorithms.entry.Validators;
+import com.example.sortingalgorithms.model.ChartDataModel;
 import com.example.sortingalgorithms.ui.view.ChartView;
 import com.example.sortingalgorithms.ui.viewmodel.ChartViewModel;
 import javafx.application.Application;
@@ -18,8 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Optional;
 
 // Основной класс приложения, расширяющий Application
@@ -29,15 +26,11 @@ public class SortingApplication extends Application {
         launch(args);
     }
 
-    // Модель данных, ViewModel и View
-    private ChartDataModel dataModel; // Модель данных
     private ChartViewModel viewModel; // ViewModel
     private ChartView chartView; // Представление
     private InputFile inputFile;
-    private Validators validators = new Validators();
-    private ArrayList<Double> listForSorting = new ArrayList<>();
-    private TreeSort<Double> algorithmSorting = new TreeSort<>();
-    private Hashtable<Integer, Double> tableDataCharts = new Hashtable<>();
+    private final Validators validators = new Validators();
+
     // Метод, вызываемый при запуске приложения
     @Override
     public void start(Stage primaryStage) {
@@ -45,7 +38,9 @@ public class SortingApplication extends Application {
         primaryStage.setTitle("Chart with Input List");
 
         // Создание и инициализация модели данных и ViewModel
-        dataModel = new ChartDataModel();
+        // Модель данных, ViewModel и View
+        // Модель данных
+        ChartDataModel dataModel = new ChartDataModel();
         viewModel = new ChartViewModel(dataModel);
         // Создание графика
         NumberAxis xAxis = new NumberAxis();
@@ -75,9 +70,6 @@ public class SortingApplication extends Application {
         readFromFileButton.setOnAction(e -> {
             String fileName = fileInputField.getText();
             inputFile.loadNumericDataFromFile(fileName);
-            // Здесь вы можете добавить логику для чтения данных из файла и обновления вашей модели данных
-            // Например, используя InputFile.loadNumericDataFromFile(fileName)
-            // Затем обновить ViewModel с прочитанными данными
         });
 
 
@@ -114,6 +106,7 @@ public class SortingApplication extends Application {
         chartView = new ChartView(series, dataListView, viewModel);
         // Обработчик кнопки для рендеринга графика
         renderButton.setOnAction(e -> {
+            series.getData().clear(); // Очистить существующие данные на графике
             chartView.renderChart();
         });
 
@@ -129,7 +122,6 @@ public class SortingApplication extends Application {
         VBox vbox = new VBox(inputVBox, fileInputVBox, renderButton);
         vbox.setSpacing(100);
         borderPane.setRight(vbox); // Размещаем оба VBox справа друг под другом
-
 
 
         // Получение информации о экране

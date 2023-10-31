@@ -1,4 +1,4 @@
-package com.example.sortingalgorithms.ui.entry;
+package com.example.sortingalgorithms.entry;
 
 import com.example.sortingalgorithms.ui.viewmodel.ChartViewModel;
 
@@ -51,7 +51,7 @@ public class InputFile {
         List<Double> data = new ArrayList<>();
         if (status != FileStatus.OK) {
             // Вывести сообщение об ошибке в зависимости от статуса
-            System.err.println("Error: " + status);
+            viewModel.showErrorAlert("Can't read the file", "Error read file", status.toString());
             return;
         }
 
@@ -64,7 +64,7 @@ public class InputFile {
                     data.add(value);
                 } catch (NumberFormatException e) {
                     //выводить Alert Dialog
-                    System.err.println("Error parsing data: " + line);
+                    viewModel.showErrorAlert("Can't read the file", "Error parsing integer", line);
                 }
             }
         } catch (IOException e) {
@@ -72,52 +72,4 @@ public class InputFile {
         }
 
     }
-
-    // Метод для загрузки строк из файла
-    public static List<String> loadStringsFromFile(String fileName) {
-        FileStatus status = validateFile(fileName);
-        List<String> data = new ArrayList<>();
-
-        if (status != FileStatus.OK) {
-            // Вывести сообщение об ошибке в зависимости от статуса
-            System.err.println("Error: " + status);
-            return data;
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    // Метод для загрузки целочисленных чисел из файла
-    public static List<Integer> loadIntegersFromFile(String fileName) {
-        FileStatus status = validateFile(fileName);
-        List<Integer> data = new ArrayList<>();
-        if (status != FileStatus.OK) {
-            // Вывести сообщение об ошибке в зависимости от статуса
-            System.err.println("Error: " + status);
-            return data;
-        }
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                try {
-                    int value = Integer.parseInt(line);
-                    data.add(value);
-                } catch (NumberFormatException e) {
-                    System.err.println("Error parsing integer: " + line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
 }

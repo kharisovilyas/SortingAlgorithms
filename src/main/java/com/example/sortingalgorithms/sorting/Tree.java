@@ -2,7 +2,7 @@ package com.example.sortingalgorithms.sorting;
 
 import java.util.*;
 
-public class Tree<T extends Comparable<T>>{
+public class Tree<T extends Comparable<T>> {
 
     @Override
     public boolean equals(Object o) {
@@ -19,11 +19,11 @@ public class Tree<T extends Comparable<T>>{
 
     /*Хранит данные о сортировке, где ключ - коли-во отсортированных элементов,
          а значение это время сортировки */
-    private  Map<Integer , Long> toSaveDataAboutSorting = new HashMap<>();
-    private  long startTimer = 0;
-    private  int countOfSortedElements = 0; // количество отсортированных элементов в текущем листе
+    private Map<Integer, Long> toSaveDataAboutSorting = new HashMap<>();
+    private long startTimer = 0;
+    private int countOfSortedElements = 0; // количество отсортированных элементов в текущем листе
 
-    public  Map<Integer, Long> getToSaveDataAboutSorting() {
+    public Map<Integer, Long> getToSaveDataAboutSorting() {
         return toSaveDataAboutSorting;
     }
 
@@ -31,16 +31,17 @@ public class Tree<T extends Comparable<T>>{
 
     /* метод для создания дерева с помощью
     коллекции имплементирующей интерфейс*/
-    public  Tree<T> toCreateTreeFromList(List<T> listForCreate){
+    public Tree<T> toCreateTreeFromList(List<T> listForCreate) {
         Tree<T> tree = new Tree<>();
-        for (var value : listForCreate){
+        for (var value : listForCreate) {
             tree.addElementToTree(value);
         }
         return tree;
     }
+
     /*Метод для добавления элементов в дерево */
-    public void addElementToTree(T data){
-        if (root == null){
+    public void addElementToTree(T data) {
+        if (root == null) {
             root = new Node<>(data);
             return;
         }
@@ -49,8 +50,8 @@ public class Tree<T extends Comparable<T>>{
     }
 
     /*Инфиксный обход дерева*/
-    public List<T> inorder (){
-        if (root == null){
+    public List<T> inorder() {
+        if (root == null) {
             return new ArrayList<>();
         }
         startTimer = System.currentTimeMillis();
@@ -59,18 +60,18 @@ public class Tree<T extends Comparable<T>>{
     }
 
     /*Инфиксный обход - реализация*/
-    private List<T> inorder(Node<T> node){
+    private List<T> inorder(Node<T> node) {
         List<T> list = new ArrayList<>();
 
-        if(node != null){
+        if (node != null) {
             /*рекурсивно обходим дерево*/
-            if(node.getLeft() != null){
+            if (node.getLeft() != null) {
                 list.addAll(inorder(node.getLeft()));
             }
 
             list.add(node.getData());
             countOfSortedElements++;
-            if(node.getRight() != null){
+            if (node.getRight() != null) {
                 list.addAll(inorder(node.getRight()));
             }
         }
@@ -79,7 +80,7 @@ public class Tree<T extends Comparable<T>>{
 
     }
 
-    public List<T> toMakeInorder (){
+    public List<T> toMakeInorder() {
         // Сброс данных перед новым обходом
         countOfSortedElements = 0;
         toSaveDataAboutSorting.clear();
@@ -87,7 +88,7 @@ public class Tree<T extends Comparable<T>>{
         return inorderWithOutRecursion();
     }
 
-    private List<T> inorderWithOutRecursion(){
+    private List<T> inorderWithOutRecursion() {
         List<T> list = new ArrayList<>();
         Stack<Node<T>> stack = new Stack<>();
         Node<T> current = root;
@@ -110,8 +111,6 @@ public class Tree<T extends Comparable<T>>{
 
         return list;
     }
-
-
 
 
 }

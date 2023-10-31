@@ -1,9 +1,8 @@
 package com.example.sortingalgorithms.ui.viewmodel;
 
-import com.example.sortingalgorithms.ui.model.ChartDataModel;
+import com.example.sortingalgorithms.model.ChartDataModel;
 import javafx.scene.control.Alert;
 
-import java.util.Hashtable;
 import java.util.Map;
 
 // Модуль ViewModel
@@ -17,6 +16,7 @@ public class ChartViewModel {
     public void addChartDataElement(Integer key, Long value) {
         dataModel.addDataHashTable(key, value);
     }
+
     public void addChartDataList() {
         dataModel.updateChartData();
     }
@@ -25,7 +25,7 @@ public class ChartViewModel {
         return dataModel.getChartData();
     }
 
-    public void addListSortingElement(Double value){
+    public void addListSortingElement(Double value) {
         dataModel.addDataListSorting(value);
     }
 

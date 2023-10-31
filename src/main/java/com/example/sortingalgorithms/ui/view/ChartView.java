@@ -10,12 +10,10 @@ import java.util.Map;
 // Модуль Представления
 public class ChartView {
     private final XYChart.Series<Number, Number> series;
-    private ListView<String> dataListView;
-    private ChartViewModel viewModel;
+    private final ChartViewModel viewModel;
 
     public ChartView(XYChart.Series<Number, Number> series, ListView<String> dataListView, ChartViewModel viewModel) {
         this.series = series;
-        this.dataListView = dataListView;
         this.viewModel = viewModel;
     }
 

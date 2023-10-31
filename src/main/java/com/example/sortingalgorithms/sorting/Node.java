@@ -2,8 +2,10 @@ package com.example.sortingalgorithms.sorting;
 
 import java.util.Objects;
 
-public class Node <T extends Comparable<T>>{
-    public Node (){} // конструктор по умолчанию
+public class Node<T extends Comparable<T>> {
+    public Node() {
+    } // конструктор по умолчанию
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,20 +53,19 @@ public class Node <T extends Comparable<T>>{
         this.right = right;
     }
 
-    public void addNewNode(T value){
+    public void addNewNode(T value) {
         Node<T> node = new Node<>(value);
 
-        if(node.data.compareTo(data) < ZEROFORCOMPAREVALUES){
-            if (left == null){
+        if (node.data.compareTo(data) < ZEROFORCOMPAREVALUES) {
+            if (left == null) {
                 left = node;
-            }else {
+            } else {
                 left.addNewNode(value);
             }
-        }
-        else{
-            if (right == null){
+        } else {
+            if (right == null) {
                 right = node;
-            }else {
+            } else {
                 right.addNewNode(value);
             }
         }

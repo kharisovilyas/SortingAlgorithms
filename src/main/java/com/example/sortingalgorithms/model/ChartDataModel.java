@@ -1,4 +1,4 @@
-package com.example.sortingalgorithms.ui.model;
+package com.example.sortingalgorithms.model;
 
 import com.example.sortingalgorithms.sorting.TreeSort;
 
@@ -24,6 +24,7 @@ public class ChartDataModel {
     public void updateChartData() {
         dataHashtable = treeSort.createDataAboutSorting(listForSorting);
     }
+
     public void addDataListSorting(Double value) {
         listForSorting.add(value);
     }
@@ -35,6 +36,7 @@ public class ChartDataModel {
     public void updateListData(List<Double> list) {
         listForSorting = list;
     }
+
     public List<Double> getListForSorting() {
         return listForSorting;
     }

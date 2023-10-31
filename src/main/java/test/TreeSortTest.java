@@ -15,29 +15,32 @@ public class TreeSortTest {
 
     @Test
     public void testSort() {
-        List<Integer> inputList = new ArrayList<>(List.of(2,3,4,5,6,7,8,9));
-        List<Integer> list = new ArrayList<>(List.of(6,4,5,3,2,7,8,9));
+        List<Integer> inputList = new ArrayList<>(List.of(2, 3, 4, 5, 6, 7, 8, 9));
+        List<Integer> list = new ArrayList<>(List.of(6, 4, 5, 3, 2, 7, 8, 9));
         TreeSort<Integer> treeSort = new TreeSort<>();
-        Assertions.assertEquals(inputList,treeSort.sort(list));
+        Assertions.assertEquals(inputList, treeSort.sort(list));
 
     }
+
     @Test
     public void testGetData() {
         Node<Integer> node = new Node<>(5);
-        assertEquals(5 , node.getData());
+        assertEquals(5, node.getData());
     }
+
     @Test
-    public void testGetLeft(){
+    public void testGetLeft() {
         Node<Integer> node = new Node<>(5);
         node.setLeft(new Node<Integer>(4));
-        assertEquals(new Node<Integer>(4),node.getLeft() );
+        assertEquals(new Node<Integer>(4), node.getLeft());
     }
+
     @Test
     public void testToMakeInorder() {
-        List<Integer> integers = new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,10));
-        List<Integer> integersForInorderWalk = new ArrayList<>(List.of(5,4,6,7,1,2,9,8,3,10));
+        List<Integer> integers = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        List<Integer> integersForInorderWalk = new ArrayList<>(List.of(5, 4, 6, 7, 1, 2, 9, 8, 3, 10));
         Tree<Integer> tree = new Tree<>();
         tree = tree.toCreateTreeFromList(integersForInorderWalk);
-        assertEquals(integers,tree.toMakeInorder());
+        assertEquals(integers, tree.toMakeInorder());
     }
 }

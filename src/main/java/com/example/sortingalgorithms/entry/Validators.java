@@ -1,4 +1,4 @@
-package com.example.sortingalgorithms.ui.entry;
+package com.example.sortingalgorithms.entry;
 
 public class Validators {
     // Валидатор для проверки, что строка является числом
@@ -10,6 +10,7 @@ public class Validators {
             return false;
         }
     }
+
     public boolean validateSizeInput(String countText) {
         try {
             int count = Integer.parseInt(countText);
@@ -18,6 +19,7 @@ public class Validators {
             return false;
         }
     }
+
     public boolean validateIntegerInput(String countText) {
         try {
             int count = Integer.parseInt(countText);
@@ -26,6 +28,7 @@ public class Validators {
             return false;
         }
     }
+
     // Валидатор для проверки, что строка не является пустой
     public boolean isNotEmpty(String str) {
         return !str.isEmpty();
