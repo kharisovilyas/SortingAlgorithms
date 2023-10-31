@@ -3,6 +3,20 @@ package com.example.sortingalgorithms.sorting;
 import java.util.*;
 
 public class Tree <T extends  Comparable<T>> {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tree<?> tree = (Tree<?>) o;
+        return startTimer == tree.startTimer && countOfSortedElements == tree.countOfSortedElements && Objects.equals(toSaveDataAboutSorting, tree.toSaveDataAboutSorting) && Objects.equals(root, tree.root);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toSaveDataAboutSorting, startTimer, countOfSortedElements, root);
+    }
+
     /*Хранит данные о сортировке, где ключ - коли-во отсортированных элементов,
         а значение это время сортировки */
     private Map<Integer , Long> toSaveDataAboutSorting = new HashMap<>();
