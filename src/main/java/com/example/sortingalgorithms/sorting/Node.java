@@ -56,7 +56,7 @@ public class Node<T extends Comparable<T>> {
     public void addNewNode(T value) {
         Node<T> node = new Node<>(value);
 
-        if (node.data.compareTo(data) < ZEROFORCOMPAREVALUES) {
+        if (node.data.compareTo(data) < ZERO_FOR_COMPARE_VALUES) {
             if (left == null) {
                 left = node;
             } else {
