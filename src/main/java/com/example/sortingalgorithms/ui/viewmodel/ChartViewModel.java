@@ -25,6 +25,14 @@ public class ChartViewModel {
         return dataModel.getChartData();
     }
 
+    public void removeDataSortingList() {
+        dataModel.removeDataListSorting();
+    }
+
+    public void removeChartData() {
+        dataModel.removeChartData();
+    }
+
     public void addListSortingElement(Double value) {
         dataModel.addDataListSorting(value);
     }

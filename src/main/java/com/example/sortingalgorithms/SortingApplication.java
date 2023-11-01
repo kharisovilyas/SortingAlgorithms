@@ -42,87 +42,13 @@ public class SortingApplication extends Application {
         // Модель данных
         ChartDataModel dataModel = new ChartDataModel();
         viewModel = new ChartViewModel(dataModel);
+        chartView = new ChartView(viewModel);
         // Создание графика
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Chart");
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        lineChart.getData().add(series);
-
-        // Создание элементов управления вводом данных
-        Label countLabel = new Label("Enter the number of elements:");
-        TextField countField = new TextField();
-
-        ListView<String> dataListView = new ListView<>(FXCollections.observableArrayList());
-        dataListView.setPrefHeight(200);
-        dataListView.setEditable(true);
-
-        // Создание и инициализация представления с передачей графика и списка данных
-        Button addButton = new Button("Add Data");
-        Button renderButton = new Button("Render Chart");
-
-        // Создание окна ввода данных из файла
-        Label fileInputLabel = new Label("Enter the path to the data file");
-        TextField fileInputField = new TextField();
-        Button readFromFileButton = new Button("Read Data from File");
-        inputFile = new InputFile(viewModel);
-        readFromFileButton.setOnAction(e -> {
-            String fileName = fileInputField.getText();
-            inputFile.loadNumericDataFromFile(fileName);
-        });
-
-
-        // Создание и инициализация представления с передачей графика и списка данных
-        addButton.setOnAction(e -> {
-            String countText = countField.getText();
-            if (validators.validateSizeInput(countText)) {
-                int count = Integer.parseInt(countText);
-                for (int i = 1; i <= count; i++) {
-                    Optional<String> result;
-                    do {
-                        TextInputDialog dialog = new TextInputDialog();
-                        dialog.setTitle("Data Input");
-                        dialog.setHeaderText("Enter data for element " + i + ":");
-                        dialog.setContentText("Data:");
-                        result = dialog.showAndWait();
-                        result.ifPresent(data -> {
-                            if (validators.validateIntegerInput(data)) {
-                                dataListView.getItems().add(data);
-                                viewModel.addListSortingElement(Double.parseDouble(data));
-                            } else {
-                                viewModel.showErrorAlert("Data Input Error", "Invalid Data", "Please enter a valid number.");
-                            }
-                        });
-                    } while (result.get().isEmpty()); // Зацикливаем ввод, пока не введены верные данные
-                }
-            } else {
-                viewModel.showErrorAlert("Data Input Error", "Invalid Count", "Please enter a valid count (greater than 0).");
-            }
-        });
-
-        //TODO: КОГДА БУДЕТ ОБНОВЛЕНИЕ ВЕТКИ РАЗКОМЕНТИТЬ
-        // tableDataCharts = algorithmSorting.sort(listForSorting);
-        chartView = new ChartView(series, dataListView, viewModel);
-        // Обработчик кнопки для рендеринга графика
-        renderButton.setOnAction(e -> {
-            series.getData().clear(); // Очистить существующие данные на графике
-            chartView.renderChart();
-        });
-
-        // Размещение элементов в интерфейсе
-        BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(lineChart);
-
-        // Размещение окон ввода данных и чтения данных из файла
-        VBox inputVBox = new VBox(countLabel, countField, addButton, dataListView);
-        VBox fileInputVBox = new VBox(fileInputLabel, fileInputField, readFromFileButton);
-        inputVBox.setSpacing(20);
-        fileInputVBox.setSpacing(20);
-        VBox vbox = new VBox(inputVBox, fileInputVBox, renderButton);
-        vbox.setSpacing(100);
-        borderPane.setRight(vbox); // Размещаем оба VBox справа друг под другом
-
+        chartView.creatingChart();
+        chartView.createDataInputControls();
+        chartView.createFileInputControls();
+        //Получение данных об элементах ui
+        BorderPane borderPane = chartView.interfaceLayout();
 
         // Получение информации о экране
         Screen primaryScreen = Screen.getPrimary();

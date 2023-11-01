@@ -74,6 +74,7 @@ public class Tree<T extends Comparable<T>> {
             if (node.getRight() != null) {
                 list.addAll(inorder(node.getRight()));
             }
+
         }
 
         return list;
@@ -92,12 +93,12 @@ public class Tree<T extends Comparable<T>> {
         List<T> list = new ArrayList<>();
         Stack<Node<T>> stack = new Stack<>();
         Node<T> current = root;
-
         while (current != null || !stack.isEmpty()) {
             while (current != null) {
                 stack.push(current);
                 current = current.getLeft();
             }
+
             current = stack.pop();
             // Замер времени при добавлении элемента
             list.add(current.getData());
@@ -105,7 +106,6 @@ public class Tree<T extends Comparable<T>> {
             long endTime = System.nanoTime();
             long sortingTime = endTime - startTimer;
             toSaveDataAboutSorting.put(countOfSortedElements, sortingTime);
-
             current = current.getRight();
         }
 

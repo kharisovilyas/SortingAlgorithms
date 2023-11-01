@@ -44,4 +44,10 @@ public class ChartDataModel {
     public void setListForSorting(List<Double> listForSorting) {
         this.listForSorting = listForSorting;
     }
+    public void removeDataListSorting(){
+        this.listForSorting.clear();
+    }
+    public void removeChartData(){
+        this.dataHashtable.clear();
+    }
 }
