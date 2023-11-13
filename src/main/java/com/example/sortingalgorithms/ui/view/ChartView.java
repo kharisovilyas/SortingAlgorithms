@@ -30,10 +30,24 @@ public class ChartView {
     private Label fileInputLabel;
     private TextField fileInputField;
     private Button readFromFileButton;
+    private Button startTestsButton;
+    private Button nextButton;
+    private int nextButtonClickCount;
+    private final Integer NUMBER_OF_TESTS = 5;
 
     public ChartView(ChartViewModel viewModel) {
         this.viewModel = viewModel;
+        nextButtonClickCount = 0;
     }
+
+    public void createTestControls() {
+        startTestsButton = new Button("Start Module Tests");
+        nextButton = new Button("Next");
+        nextButton.setVisible(false);
+        startTestsButton.setOnAction(e -> handleStartTests());
+        nextButton.setOnAction(e -> handleNextButton());
+    }
+
 
     public void renderChart() {
         Map<Integer, Long> data = viewModel.getData();
@@ -47,9 +61,14 @@ public class ChartView {
         NumberAxis yAxis = new NumberAxis();
         lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle("Сomplexity chart of the tree sorting algorithm");
+        // Подписи для осей
+        xAxis.setLabel("Number of Swaps");
+        yAxis.setLabel("Execution Time (microseconds)");
         series = new XYChart.Series<>();
+        series.setName("Algorithm Notation");
         lineChart.getData().add(series);
     }
+
     // Создание элементов управления для ввода данных
     public void createDataInputControls() {
         countLabel = new Label("Enter the number of elements:");
@@ -115,17 +134,42 @@ public class ChartView {
         inputFile.loadNumericDataFromFile(fileName);
     }
 
+    public void handleStartTests() {
+        InputFile inputFile = new InputFile(viewModel);
+        nextButtonClickCount++;
+        viewModel.createTestFiles();
+        inputFile.loadNumericDataFromFile(nextButtonClickCount + ".txt");
+        handleRenderChart();
+        startTestsButton.setVisible(false);
+        nextButton.setVisible(true);
+    }
+
+    public void handleNextButton() {
+        InputFile inputFile = new InputFile(viewModel);
+        nextButtonClickCount++;
+        viewModel.createTestFiles();
+        inputFile.loadNumericDataFromFile(nextButtonClickCount + ".txt");
+        handleRenderChart();
+        if (nextButtonClickCount == NUMBER_OF_TESTS) {
+            nextButton.setVisible(false);
+            startTestsButton.setVisible(true);
+            nextButtonClickCount = 0;
+            viewModel.deleteTestFiles();
+        }
+    }
+
     public BorderPane interfaceLayout(){
         // Размещение элементов в интерфейсе
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(lineChart);
-
         // Размещение окон ввода данных и чтения данных из файла
         VBox inputVBox = new VBox(countLabel, countField, addButton, dataListView);
         VBox fileInputVBox = new VBox(fileInputLabel, fileInputField, readFromFileButton);
+        VBox testVBox = new VBox(startTestsButton, nextButton);
         inputVBox.setSpacing(20);
         fileInputVBox.setSpacing(20);
-        VBox vbox = new VBox(inputVBox, fileInputVBox, renderButton);
+        testVBox.setSpacing(10);
+        VBox vbox = new VBox(inputVBox, fileInputVBox, renderButton, testVBox);
         vbox.setSpacing(100);
         borderPane.setRight(vbox); // Размещаем оба VBox справа друг под другом
         return borderPane;

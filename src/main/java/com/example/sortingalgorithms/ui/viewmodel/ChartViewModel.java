@@ -2,12 +2,14 @@ package com.example.sortingalgorithms.ui.viewmodel;
 
 import com.example.sortingalgorithms.model.ChartDataModel;
 import javafx.scene.control.Alert;
+import test.TestFileCreator;
 
 import java.util.Map;
 
 // Модуль ViewModel
 public class ChartViewModel {
     private final ChartDataModel dataModel;
+    private Integer numberOfTest = 0;
 
     public ChartViewModel(ChartDataModel dataModel) {
         this.dataModel = dataModel;
@@ -43,5 +45,25 @@ public class ChartViewModel {
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
         alert.showAndWait();
+    }
+
+    public void createTestFiles() {
+        TestFileCreator testFileCreator = new TestFileCreator();
+        testFileCreator.creatingTestFile(fileName(), 100, true);
+        testFileCreator.creatingTestFile(fileName(), 1000, true);
+        testFileCreator.creatingTestFile(fileName(), 100, false);
+        testFileCreator.creatingTestFile(fileName(), 1000, false);
+        testFileCreator.creatingTestFile(fileName(), 10, false);
+        numberOfTest = 0;
+    }
+
+    public void deleteTestFiles() {
+        TestFileCreator testFileCreator = new TestFileCreator();
+        testFileCreator.deleteTestFiles();
+    }
+
+    private String fileName() {
+        numberOfTest++;
+        return numberOfTest + ".txt";
     }
 }

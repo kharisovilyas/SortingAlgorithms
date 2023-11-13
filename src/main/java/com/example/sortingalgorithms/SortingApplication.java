@@ -26,11 +26,6 @@ public class SortingApplication extends Application {
         launch(args);
     }
 
-    private ChartViewModel viewModel; // ViewModel
-    private ChartView chartView; // Представление
-    private InputFile inputFile;
-    private final Validators validators = new Validators();
-
     // Метод, вызываемый при запуске приложения
     @Override
     public void start(Stage primaryStage) {
@@ -41,12 +36,15 @@ public class SortingApplication extends Application {
         // Модель данных, ViewModel и View
         // Модель данных
         ChartDataModel dataModel = new ChartDataModel();
-        viewModel = new ChartViewModel(dataModel);
-        chartView = new ChartView(viewModel);
+        // ViewModel
+        ChartViewModel viewModel = new ChartViewModel(dataModel);
+        // Представление
+        ChartView chartView = new ChartView(viewModel);
         // Создание графика
         chartView.creatingChart();
         chartView.createDataInputControls();
         chartView.createFileInputControls();
+        chartView.createTestControls();
         //Получение данных об элементах ui
         BorderPane borderPane = chartView.interfaceLayout();
 
