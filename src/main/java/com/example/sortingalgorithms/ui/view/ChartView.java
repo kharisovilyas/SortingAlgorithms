@@ -10,18 +10,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
-
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Optional;
 
 // Модуль Представления
 public class ChartView {
-    private XYChart.Series<Number, Number> series;
-    private final ChartViewModel viewModel;
-    private LineChart<Number, Number> lineChart;
+    private XYChart.Series<Number, Number> series; // Серия данных для графика
+    private final ChartViewModel viewModel; // ViewModel, связанная с представлением
+    private LineChart<Number, Number> lineChart; // График
     private Label countLabel;
     private TextField countField;
     private Button addButton;
@@ -32,14 +28,16 @@ public class ChartView {
     private Button readFromFileButton;
     private Button startTestsButton;
     private Button nextButton;
-    private int nextButtonClickCount;
-    private final Integer NUMBER_OF_TESTS = 5;
+    private int nextButtonClickCount; // Счетчик нажатий на кнопку "Next"
+    private final Integer NUMBER_OF_TESTS = 5; // Количество тестов
 
+    // Конструктор, принимающий ViewModel
     public ChartView(ChartViewModel viewModel) {
         this.viewModel = viewModel;
-        nextButtonClickCount = 0;
+        nextButtonClickCount = 0; // Инициализация счетчика
     }
 
+    // Создание элементов управления для тестов
     public void createTestControls() {
         startTestsButton = new Button("Start Module Tests");
         nextButton = new Button("Next");
@@ -48,7 +46,7 @@ public class ChartView {
         nextButton.setOnAction(e -> handleNextButton());
     }
 
-
+    // Отрисовка графика
     public void renderChart() {
         Map<Integer, Long> data = viewModel.getData();
         for (Number key : data.keySet()) {
@@ -56,6 +54,7 @@ public class ChartView {
         }
     }
 
+    // Создание графика
     public void creatingChart() {
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -85,6 +84,7 @@ public class ChartView {
         renderButton.setOnAction(e -> handleRenderChart());
     }
 
+    // Обработчик нажатия кнопки "Render Chart"
     public void handleRenderChart() {
         series.getData().clear();
         renderChart();
@@ -92,6 +92,7 @@ public class ChartView {
         viewModel.removeDataSortingList();
     }
 
+    // Обработчик нажатия кнопки "Add Data"
     public void handleAddData(TextField countField, ListView<String> dataListView) {
         String countText = countField.getText();
         Validators validators = new Validators();
@@ -120,7 +121,7 @@ public class ChartView {
         }
     }
 
-    // Создание окна ввода данных из файла
+    // Создание элементов управления для ввода данных из файла
     public void createFileInputControls() {
         fileInputLabel = new Label("Enter the path to the data file");
         fileInputField = new TextField();
@@ -128,12 +129,14 @@ public class ChartView {
         readFromFileButton.setOnAction(e -> handleReadDataFromFile(fileInputField));
     }
 
+    // Обработчик нажатия кнопки "Read Data from File"
     public void handleReadDataFromFile(TextField fileInputField) {
         InputFile inputFile = new InputFile(viewModel);
         String fileName = fileInputField.getText();
         inputFile.loadNumericDataFromFile(fileName);
     }
 
+    // Обработчик нажатия кнопки "Start Module Tests"
     public void handleStartTests() {
         InputFile inputFile = new InputFile(viewModel);
         nextButtonClickCount++;
@@ -144,6 +147,7 @@ public class ChartView {
         nextButton.setVisible(true);
     }
 
+    // Обработчик нажатия кнопки "Next"
     public void handleNextButton() {
         InputFile inputFile = new InputFile(viewModel);
         nextButtonClickCount++;
@@ -158,6 +162,7 @@ public class ChartView {
         }
     }
 
+    // Создание интерфейса приложения
     public BorderPane interfaceLayout(){
         // Размещение элементов в интерфейсе
         BorderPane borderPane = new BorderPane();

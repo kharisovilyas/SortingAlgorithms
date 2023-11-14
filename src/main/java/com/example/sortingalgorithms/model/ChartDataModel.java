@@ -9,45 +9,27 @@ import java.util.Map;
 
 // Модуль Модели
 public class ChartDataModel {
-    private TreeSort<Double> treeSort = new TreeSort<>();
-    private Map<Integer, Long> dataHashtable = new Hashtable<>();
-    private List<Double> listForSorting = new ArrayList<>();
+    private final TreeSort<Double> treeSort = new TreeSort<>(); // Инициализация объекта для сортировки
+    private final Map<Integer, Long> dataHashtable = new Hashtable<>(); // Хранение данных о времени выполнения и количестве перестановок
+    private final List<Double> listForSorting = new ArrayList<>(); // Хранение данных для сортировки
 
-    public void addDataHashTable(Integer timeOfImpl, Long numberOfPermutations) {
-        dataHashtable.put(timeOfImpl, numberOfPermutations);
-    }
-
+    // Получение данных для построения графика
     public Map<Integer, Long> getChartData() {
         return treeSort.createDataAboutSorting(listForSorting);
     }
 
-    public void updateChartData() {
-        dataHashtable = treeSort.createDataAboutSorting(listForSorting);
-    }
-
+    // Добавление данных для сортировки
     public void addDataListSorting(Double value) {
         listForSorting.add(value);
     }
 
-    public List<Double> getListData() {
-        return listForSorting;
-    }
-
-    public void updateListData(List<Double> list) {
-        listForSorting = list;
-    }
-
-    public List<Double> getListForSorting() {
-        return listForSorting;
-    }
-
-    public void setListForSorting(List<Double> listForSorting) {
-        this.listForSorting = listForSorting;
-    }
-    public void removeDataListSorting(){
+    // Очистка списка данных для сортировки
+    public void removeDataListSorting() {
         this.listForSorting.clear();
     }
-    public void removeChartData(){
+
+    // Очистка данных о времени выполнения и количестве перестановок
+    public void removeChartData() {
         this.dataHashtable.clear();
     }
 }
