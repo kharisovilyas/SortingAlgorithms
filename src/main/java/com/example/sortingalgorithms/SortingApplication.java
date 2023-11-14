@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 // Основной класс приложения, расширяющий Application
 public class SortingApplication extends Application {
+    private static final double CONST_HEIGHT_OF_SCENE = 1.5;
+
     // Точка входа в приложение
     public static void main(String[] args) {
         launch(args);
@@ -30,12 +32,6 @@ public class SortingApplication extends Application {
         // Представление
         ChartView chartView = new ChartView(viewModel);
 
-        // Создание графика и элементов управления вводом данных
-        chartView.creatingChart();
-        chartView.createDataInputControls();
-        chartView.createFileInputControls();
-        chartView.createTestControls();
-
         // Получение данных об элементах UI
         BorderPane borderPane = chartView.interfaceLayout();
 
@@ -46,7 +42,7 @@ public class SortingApplication extends Application {
         double borderAndTitleBarHeight = screenHeight - primaryScreen.getVisualBounds().getHeight();
 
         // Создание сцены с учетом размеров экрана
-        Scene scene = new Scene(borderPane, screenWidth, screenHeight - borderAndTitleBarHeight * 1.5);
+        Scene scene = new Scene(borderPane, screenWidth, screenHeight - borderAndTitleBarHeight * CONST_HEIGHT_OF_SCENE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

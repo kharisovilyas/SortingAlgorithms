@@ -6,8 +6,12 @@ public class Tree<T extends Comparable<T>> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Tree<?> tree = (Tree<?>) o;
         return startTimer == tree.startTimer && countOfSortedElements == tree.countOfSortedElements && Objects.equals(toSaveDataAboutSorting, tree.toSaveDataAboutSorting) && Objects.equals(root, tree.root);
     }
@@ -19,7 +23,7 @@ public class Tree<T extends Comparable<T>> {
 
     /*Хранит данные о сортировке, где ключ - коли-во отсортированных элементов,
          а значение это время сортировки */
-    private Map<Integer, Long> toSaveDataAboutSorting = new HashMap<>();
+    private final Map<Integer, Long> toSaveDataAboutSorting = new HashMap<>();
     private long startTimer = 0;
     private int countOfSortedElements = 0; // количество отсортированных элементов в текущем листе
 
@@ -56,7 +60,6 @@ public class Tree<T extends Comparable<T>> {
         }
         startTimer = System.currentTimeMillis();
         return inorder(root);
-
     }
 
     /*Инфиксный обход - реализация*/
@@ -111,6 +114,4 @@ public class Tree<T extends Comparable<T>> {
 
         return list;
     }
-
-
 }

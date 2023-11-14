@@ -3,18 +3,22 @@ package test;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class TestFileCreator {
+    private static final double HEIGHT_BORDER_RANDOM = 1000f;
+    private static final int LOW_BORDER = 0;
+    private static final int LOW_NUMBER_TEST = 1;
+    private static final int NUMBER_OF_TESTS = 5; // Количество тестов
+
     public void creatingTestFile(String fileName, int size, boolean isSorted) {
         try (FileWriter writer = new FileWriter(fileName)) {
             Random random = new Random();
             List<Double> dataList = new ArrayList<>();
 
             // Заполняем список случайными значениями
-            for (int i = 0; i < size; i++) {
-                dataList.add(random.nextDouble() * 1000); // Просто для примера, можно изменить границы
+            for (int i = LOW_BORDER; i < size; i++) {
+                dataList.add(random.nextDouble() * HEIGHT_BORDER_RANDOM); // Просто для примера, можно изменить границы
             }
 
             // Сортируем список, если необходимо
@@ -33,7 +37,7 @@ public class TestFileCreator {
     }
 
     public void deleteTestFiles() {
-        for (int i = 1; i <= 5; i++) {
+        for (int i = LOW_NUMBER_TEST; i <= NUMBER_OF_TESTS; i++) {
             String fileName = i + ".txt";
             try {
                 Files.deleteIfExists(Paths.get(fileName));

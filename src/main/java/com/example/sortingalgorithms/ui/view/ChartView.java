@@ -29,10 +29,14 @@ public class ChartView {
     private Button startTestsButton;
     private Button nextButton;
     private int nextButtonClickCount; // Счетчик нажатий на кнопку "Next"
-    private final Integer NUMBER_OF_TESTS = 5; // Количество тестов
+    private static final int NUMBER_OF_TESTS = 5; // Количество тестов
 
     // Конструктор, принимающий ViewModel
     public ChartView(ChartViewModel viewModel) {
+        creatingChart();
+        createDataInputControls();
+        createFileInputControls();
+        createTestControls();
         this.viewModel = viewModel;
         nextButtonClickCount = 0; // Инициализация счетчика
     }
@@ -94,6 +98,7 @@ public class ChartView {
 
     // Обработчик нажатия кнопки "Add Data"
     public void handleAddData(TextField countField, ListView<String> dataListView) {
+        dataListView.getItems().clear();
         String countText = countField.getText();
         Validators validators = new Validators();
         if (validators.validateSizeInput(countText)) {
